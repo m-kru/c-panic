@@ -7,6 +7,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #define panic(fmt, ...) do {\
 	fprintf(\
@@ -14,6 +15,14 @@
 	);\
 	exit(EXIT_FAILURE);\
 } while(0)
+
+#define panic_errno(fmt, ...) do {\
+	const int err = errno;\
+	fprintf(\
+		stderr, "%s:%d: panic: " fmt ": %s\n", __FILE__, __LINE__, ## __VA_ARGS__, strerror(err)\
+	);\
+	exit(EXIT_FAILURE);\
+} while (0)
 
 #define todo(fmt, ...) do {\
 	fprintf(\
